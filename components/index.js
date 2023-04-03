@@ -1,7 +1,7 @@
 import ScreenHeaderBtn from "./common/header/ScreenHeaderBtn";
 
 // home screen
-import Home from "./home/Home";
+import Transitions from "./transitions/Transitions";
 
 // mysongs screen
 import MySongs from "./mysongs/MySongs";
@@ -18,7 +18,7 @@ import Storage from "./storage/Storage";
 // common
 export {
   ScreenHeaderBtn,
-  Home,
+  Transitions,
   MySongs,
   NewSong,
   NewTransition,

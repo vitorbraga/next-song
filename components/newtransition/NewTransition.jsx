@@ -1,11 +1,13 @@
 import { View, Text, TextInput } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
+import * as SQLite from 'expo-sqlite';
 import CustomButton from "../common/CustomButton/CustomButton";
 import { COLORS, SIZES } from "../../constants";
+import * as DB from "../../database/database";
+import SongSearch from "./SongSearch";
 
 import styles from "./NewTransition.style";
-import SongSearch from "./SongSearch";
 /*
   transition: {
     songFrom: string;
@@ -15,51 +17,88 @@ import SongSearch from "./SongSearch";
     observation?: string;
 */
 
+const initialTransitionState = { songFrom: '', songTo: '', outro: '', intro: '', observation: '' };
+
 export default function NewTransition() {
-  const [newTransition, setNewTransition] = useState({ songFrom: '', songTo: '', exitInfo: '', entryInfo: '', observation: '' });
+  const router = useRouter();
+
+  const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
+  const [newTransition, setNewTransition] = useState(initialTransitionState);
+  const [transactionCount, setTransactionCount] = useState(0);
 
   const handleFieldChange = (fieldName) => (text) => {
     setNewTransition({ ...newTransition, [fieldName]: text });
   }
 
+  const handleSelectSongFrom = (songId) => {
+    setNewTransition({ ...newTransition, songFrom: songId });
+  }
+
+  const handleSelectSongTo = (songId) => {
+    setNewTransition({ ...newTransition, songTo: songId });
+  }
+
+  const handleSuccessInsertion = () => {
+    alert('Transition inserted successfully');
+    setNewTransition(initialTransitionState);
+    router.push('/index');
+  }
+
+  const handleFailedInsertion = (tx, error) => {
+    console.log('Failed insertion transition', error);
+  }
+
   const handleSubmit = async () => {
-    if (!newTransition.songFrom || !newTransition.songTo || !newTransition.exitInfo || !newTransition.entryInfo) {
+    if (!newTransition.songFrom || !newTransition.songTo || !newTransition.outro || !newTransition.intro) {
       alert('Please fill all fields');
       return;
     }
 
-    console.log('Vai inserir no banco de dados', newTransition);
-
-    // await DB.insertNewSong(song);
-
-    console.log('inseriu teoricamente');
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          DB.insertNewTransitionQuery,
+          [newTransition.songFrom, newTransition.songTo, newTransition.outro, newTransition.intro, newTransition.observation],
+          handleSuccessInsertion,
+          handleFailedInsertion,
+        );
+      },
+      null,
+      () => setTransactionCount(transactionCount + 1),
+    );
   };
 
   return (
     <View style={{ flex: 1, paddingLeft: SIZES.small, paddingRight: SIZES.small }}>
-      <View style={styles.formRowTwoFields}>
-        <SongSearch placeholder="Search for a song to mix out" zIndex={11} />
+      <View style={[styles.formRowTwoFields, { zIndex: 10 }]}>
+        <SongSearch
+          placeholder="Search for a song to mix out"
+          onSelectSong={handleSelectSongFrom}
+        />
         <TextInput
-          style={styles.infoFormInput}
+          style={styles.infoInput}
           placeholderTextColor={COLORS.gray}
-          value={newTransition.exitInfo}
-          onChangeText={handleFieldChange('exitInfo')}
-          placeholder="EI"
+          value={newTransition.outro}
+          onChangeText={handleFieldChange('outro')}
+          placeholder="Outro"
         />
       </View>
 
-      <View style={styles.formRowTwoFields}>
-        <SongSearch placeholder="Search for a song to mix in" zIndex={10} />
+      <View style={[styles.formRowTwoFields, { zIndex: 8 }]}>
+        <SongSearch
+          placeholder="Search for a song to mix in"
+          onSelectSong={handleSelectSongTo}
+        />
         <TextInput
-          style={styles.infoFormInput}
+          style={styles.infoInput}
           placeholderTextColor={COLORS.gray}
-          value={newTransition.entryInfo}
-          onChangeText={handleFieldChange('entryInfo')}
-          placeholder="EI"
+          value={newTransition.intro}
+          onChangeText={handleFieldChange('intro')}
+          placeholder="Intro"
         />
       </View>
 
-      <View style={styles.formRow}>
+      <View style={[styles.formRow, { zIndex: 1 }]}>
         <TextInput
           style={styles.formInput}
           placeholderTextColor={COLORS.gray}

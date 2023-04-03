@@ -36,10 +36,7 @@ export default function NewTransition() {
       return;
     }
 
-    console.log('Vai inserir no banco de dados');
-
     const song = { ...newSong, style };
-
     db.transaction(
       (tx) => {
         tx.executeSql(

@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     marginTop: SIZES.large,
-    zIndex: 1,
   },
   formInput: {
     fontFamily: FONT.regular,
@@ -38,7 +37,7 @@ const styles = StyleSheet.create({
     borderWidth : 1,
     borderRadius: SIZES.xxSmall,
   },
-  infoFormInput: {
+  infoInput: {
     fontFamily: FONT.regular,
     width: "20%",
     height: "100%",

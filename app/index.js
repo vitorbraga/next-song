@@ -4,10 +4,10 @@ import { Stack, useRouter } from "expo-router";
 import * as SQLite from 'expo-sqlite';
 
 import { COLORS, icons, images, SIZES } from "../constants";
-import { Home } from "../components";
 import { FloatingAction } from "react-native-floating-action";
 import * as DB from "../database/database";
 import { useIsFocused } from "@react-navigation/native";
+import { Transitions } from "../components";
 
 const actions = [
   {
@@ -35,17 +35,12 @@ const Index = () => {
       console.log('Will try to create table');
       db.transaction(tx => {
         tx.executeSql(DB.songsTableQuery);
+        // tx.executeSql(DB.dropTransitionsTableQuery);
         tx.executeSql(DB.transitionsTableQuery);
       },
       null,
       () => setTransactionCount(transactionCount + 1));
   
-      // db.transaction(tx => {
-      //   tx.executeSql(DB.getMyTransitionsQuery, null,
-      //     (txObj, resultSet) => console.log(resultSet.rows._array),
-      //     (txObj, error) => console.log(error)
-      //   );
-      // });
       setIsLoading(false);
     }
   }, [db, isFocused]);
@@ -72,7 +67,7 @@ const Index = () => {
           padding: SIZES.medium,
         }}
       >
-        <Home
+        <Transitions
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
           handleClick={() => {

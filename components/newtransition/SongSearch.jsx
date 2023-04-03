@@ -8,7 +8,7 @@ import * as DB from "../../database/database";
 
 import styles from "./SongSearch.style";
 
-export default function SongSearch({ placeholder, zIndex }) {
+export default function SongSearch({ placeholder, onSelectSong }) {
   const isFocused = useIsFocused();
 
   const [loading, setLoading] = useState(false);
@@ -42,17 +42,17 @@ export default function SongSearch({ placeholder, zIndex }) {
     }
   }, [isFocused]);
 
-  // console.log('UPDATE', songs);
-
   const handleSetSelectItem = (selectedItem) => {
     console.log('handleSetSelectItem', selectedItem);
-    setSelectedItem(selectedItem);
+    if (selectedItem) {
+      setSelectedItem(selectedItem);
+      onSelectSong(selectedItem.id);
+    }
   }
 
   const getSuggestions = async (q) => {
     const filterToken = q.toLowerCase();
 
-    // console.log('getSuggestions', filterToken);
     if (typeof q !== 'string' || q.length < 3) {
       setRemoteDataSet(null);
       return;
@@ -60,7 +60,6 @@ export default function SongSearch({ placeholder, zIndex }) {
 
     setLoading(true);
 
-    // console.log('aqui 1', songs);
     const suggestions = songs
       .filter(item => {
         return item.title.toLowerCase().includes(filterToken) || item.artist.toLowerCase().includes(filterToken)
@@ -69,7 +68,6 @@ export default function SongSearch({ placeholder, zIndex }) {
         id: item.song_id,
         title: item.title,
       }));
-    // console.log('aqui 2');
 
     setRemoteDataSet(suggestions);
     setLoading(false);
@@ -84,7 +82,7 @@ export default function SongSearch({ placeholder, zIndex }) {
   }
 
   return (
-    <View style={[styles.viewContainer, Platform.select({ ios: { zIndex } })]}>
+    <View style={styles.viewContainer}>
       <AutocompleteDropdown
         containerStyle={styles.container}
         inputContainerStyle={styles.inputContainer}
