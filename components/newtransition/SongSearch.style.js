@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
+  viewContainer: {
+    width: "76%",
   },
   formRow: {
     justifyContent: "center",
@@ -20,7 +20,15 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     marginTop: SIZES.large,
-    zIndex: 1,
+  },
+  searchWrapper: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+    marginRight: SIZES.small,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: SIZES.medium,
+    height: "100%",
   },
   formInput: {
     fontFamily: FONT.regular,
@@ -30,25 +38,25 @@ const styles = StyleSheet.create({
     borderRadius: SIZES.xxSmall,
     borderWidth : 1,
   },
-  songFormInput: {
+  container: {
     fontFamily: FONT.regular,
-    width: "76%",
+    width: "100%",
     height: "100%",
-    paddingHorizontal: SIZES.medium,
     borderWidth : 1,
     borderRadius: SIZES.xxSmall,
-  },
-  infoFormInput: {
-    fontFamily: FONT.regular,
-    width: "20%",
-    height: "100%",
-    paddingHorizontal: SIZES.medium,
-    borderWidth : 1,
-    borderRadius: SIZES.xxSmall,
-  },
-  dropdown: {
     backgroundColor: COLORS.lightWhite,
   },
+  inputContainer: {
+    backgroundColor: COLORS.lightWhite,
+    borderRadius: SIZES.xxSmall,
+  },
+  suggestionListContainer: {
+    backgroundColor: COLORS.lightWhite,
+  },
+  suggestionListText: {
+    padding: 10,
+    color: '#8f3c96',
+  }
 });
 
 export default styles;

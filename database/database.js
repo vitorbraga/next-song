@@ -1,79 +1,60 @@
-import { openDatabase, enablePromise } from 'react-native-sqlite-storage';
+import * as SQLite from 'expo-sqlite';
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
 
-enablePromise(true);
+export const DATABASE_NAME = 'nextsong.db';
 
-export async function getDBConnection() {
-  try {
-    console.log('getDBConnection 1');
-    const db = openDatabase({ name: 'next-song.db', createFromLocation: 1 });
-    console.log('getDBConnection 2');
-    return db;
-  } catch (e) {
-    console.log('Error in getDBConnection', e);
-    return null;
-  }
+export const exportDb = async () => {
+  await Sharing.shareAsync(FileSystem.documentDirectory + `SQLite/${DATABASE_NAME}`);
 }
 
-export const createTables = async (db) => {
-  // create table if not exists
-  // CREATE TABLE IF NOT EXISTS table_user(user_id INTEGER PRIMARY KEY AUTOINCREMENT, user_name VARCHAR(20) UNIQUE, user_contact INT(10), user_address VARCHAR(255))
-  try {
-    console.log('createTables 1');
-    const songsTable = `CREATE TABLE IF NOT EXISTS songs (
-      song_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      key TEXT NOT NULL,
-      bpm INTEGER NOT NULL,
-      style TEXT NOT NULL,
-      observation TEXT
-      );`;
-    await db.executeSql(songsTable);
-    console.log('createTables 2');
-  } catch (error) {
-    console.error(error);
-    throw Error('Failed to create tables !!!');
+const importDb = async (db) => {
+  let result = await DocumentPicker.getDocumentAsync({
+    copyToCacheDirectory: true
+  });
+
+  if (result.type === 'success') {
+    setIsLoading(true);
+
+    if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
+      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
+    }
+
+    const base64 = await FileSystem.readAsStringAsync(
+      result.uri,
+      { encoding: FileSystem.EncodingType.Base64 }
+    );
+
+    await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + `SQLite/${DATABASE_NAME}`, base64, { encoding: FileSystem.EncodingType.Base64 });
+    await db.closeAsync();
+    db = SQLite.openDatabase(DATABASE_NAME);
   }
 };
 
-export const getMySongs = async (db) => {
-  try {
-    const songs = [];
-    const results = await db.executeSql(`SELECT * FROM songs`);
-    console.log(results);
-    results.forEach(result => {
-      for (let index = 0; index < result.rows.length; index++) {
-        songs.push(result.rows.item(index))
-      }
-    });
-    console.log('Songs getMySongs', songs);
-    return songs;
-  } catch (error) {
-    console.error(error);
-    throw Error('Failed to get songs !!!');
-  }
-};
+export const songsTableQuery = `CREATE TABLE IF NOT EXISTS songs (
+    song_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    artist TEXT NOT NULL,
+    key TEXT NOT NULL,
+    bpm INTEGER NOT NULL,
+    style TEXT NOT NULL,
+    observation TEXT
+    );`;
 
-export const saveTodoItems = async (db, song) => {
-  return db.executeSql('INSERT INTO my_songs (name, key, bpm, style, observation) VALUES (?, ?, ?, ?, ?)',
-    [song.name, song.key, song.bpm, song.style, song.observation])
-};
+export const transitionsTableQuery = `CREATE TABLE IF NOT EXISTS transitions (
+  transition_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  songFrom TEXT NOT NULL,
+  songTo TEXT NOT NULL,
+  exitInfo TEXT NOT NULL,
+  entryInfo TEXT NOT NULL,
+  observation TEXT
+  );`;
 
-// export async function insertNewSong(song) {
-//   const db = await getDb();
-//   db.executeSql('INSERT INTO my_songs (name, key, bpm, style, observation) VALUES (?, ?, ?, ?, ?)', [song.name, song.key, song.bpm, song.style, song.observation])
+export const getMySongsQuery = 'SELECT * FROM songs';
 
-//   await db.transaction((tx) => {
-//     tx.executeSql(
-//       'INSERT INTO my_songs (name, key, bpm, style, observation) VALUES (?, ?, ?, ?, ?)',
-//       [song.name, song.key, song.bpm, song.style, song.observation],
-//       (tx, results) => {
-//         console.log('Results', results.rowsAffected);
-//         if (results.rowsAffected > 0) {
-//           console.log('Song added');
-//         } else {
-//           console.log('Song not added');
-//         }
-//       },
-//     );
-//   });
-// }
+export const getMyTransitionsQuery = 'SELECT * FROM transitions';
+
+export const insertNewSongQuery = 'INSERT INTO songs (title, artist, key, bpm, style, observation) VALUES (?, ?, ?, ?, ?, ?)';
+
+export const searchSongsQuery = 'SELECT * FROM songs WHERE title LIKE ? OR artist LIKE ?';

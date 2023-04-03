@@ -12,11 +12,15 @@ import NewSong from "./newsong/NewSong";
 // newtransition screen
 import NewTransition from "./newtransition/NewTransition";
 
+// database screen
+import Storage from "./storage/Storage";
+
 // common
 export {
   ScreenHeaderBtn,
   Home,
   MySongs,
   NewSong,
-  NewTransition
+  NewTransition,
+  Storage
 };

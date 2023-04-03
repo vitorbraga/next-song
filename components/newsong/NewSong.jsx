@@ -2,16 +2,33 @@ import { View, Text, TextInput } from "react-native";
 import { COLORS, icons, SIZES, SONG_STYLES_DROPDOWN } from "../../constants";
 import { useState } from "react";
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import * as SQLite from 'expo-sqlite';
 import styles from "./NewSong.style";
-import SubmitButton from "../common/SubmitButton/SubmitButton";
-// import * as DB from "../../database/database";
+import CustomButton from "../common/CustomButton/CustomButton";
+import * as DB from "../../database/database";
+import { useRouter } from "expo-router";
+
+const initialSongState = { title: '', artist: '', key: '', bpm: '', observation: '' };
 
 export default function NewTransition() {
-  const [newSong, setNewSong] = useState({ title: '', artist: '', key: '', bpm: '', observation: '' });
+  const router = useRouter();
+  const [newSong, setNewSong] = useState(initialSongState);
   const [items, setItems] = useState(SONG_STYLES_DROPDOWN);
   const [style, setStyle] = useState(null);
   const [open, setOpen] = useState(false);
+  const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
+  const [transactionCount, setTransactionCount] = useState(0);
+
+  const handleSuccessInsertion = () => {
+    alert('Song inserted successfully');
+    setNewSong(initialSongState);
+    setStyle(null);
+    router.push('/mysongs');
+  }
+
+  const handleFailedInsertion = () => {
+    console.log('Failed insertion');
+  }
 
   const handleSubmit = async () => {
     if (!newSong.title || !newSong.artist || !newSong.key || !newSong.bpm || !style) {
@@ -22,9 +39,19 @@ export default function NewTransition() {
     console.log('Vai inserir no banco de dados');
 
     const song = { ...newSong, style };
-    // await DB.insertNewSong(song);
 
-    console.log('inseriu teoricamente');
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          DB.insertNewSongQuery,
+          [song.title, song.artist, song.key, song.bpm, song.style, song.observation],
+          handleSuccessInsertion,
+          handleFailedInsertion,
+        );
+      },
+      null,
+      () => setTransactionCount(transactionCount + 1),
+    );
   };
 
   const handleFieldChange = (fieldName) => (text) => {
@@ -56,6 +83,7 @@ export default function NewTransition() {
           style={styles.halfFormInput}
           placeholderTextColor={COLORS.gray}
           value={newSong.key}
+          autoCapitalize="characters"
           onChangeText={handleFieldChange('key')}
           placeholder="Key"
         />
@@ -93,7 +121,7 @@ export default function NewTransition() {
           listMode="MODAL"
         />
       </View>
-      <SubmitButton label="Create song" handlePress={handleSubmit} />
+      <CustomButton label="Create song" handlePress={handleSubmit} />
     </View>
   );
 }

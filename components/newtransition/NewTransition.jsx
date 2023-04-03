@@ -1,10 +1,11 @@
 import { View, Text, TextInput } from "react-native";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import SubmitButton from "../common/SubmitButton/SubmitButton";
+import CustomButton from "../common/CustomButton/CustomButton";
 import { COLORS, SIZES } from "../../constants";
 
 import styles from "./NewTransition.style";
+import SongSearch from "./SongSearch";
 /*
   transition: {
     songFrom: string;
@@ -14,7 +15,7 @@ import styles from "./NewTransition.style";
     observation?: string;
 */
 
-export default function NewSong() {
+export default function NewTransition() {
   const [newTransition, setNewTransition] = useState({ songFrom: '', songTo: '', exitInfo: '', entryInfo: '', observation: '' });
 
   const handleFieldChange = (fieldName) => (text) => {
@@ -35,15 +36,9 @@ export default function NewSong() {
   };
 
   return (
-    <View style={{ paddingLeft: SIZES.small, paddingRight: SIZES.small, backgroundColor: 'yellow' }}>
+    <View style={{ flex: 1, paddingLeft: SIZES.small, paddingRight: SIZES.small }}>
       <View style={styles.formRowTwoFields}>
-        <TextInput
-          style={styles.songFormInput}
-          placeholderTextColor={COLORS.gray}
-          value={newTransition.songFrom}
-          onChangeText={handleFieldChange('songFrom')}
-          placeholder="Song From"
-        />
+        <SongSearch placeholder="Search for a song to mix out" zIndex={11} />
         <TextInput
           style={styles.infoFormInput}
           placeholderTextColor={COLORS.gray}
@@ -54,13 +49,7 @@ export default function NewSong() {
       </View>
 
       <View style={styles.formRowTwoFields}>
-        <TextInput
-          style={styles.songFormInput}
-          placeholderTextColor={COLORS.gray}
-          value={newTransition.songTo}
-          onChangeText={handleFieldChange('songTo')}
-          placeholder="Song To"
-        />
+        <SongSearch placeholder="Search for a song to mix in" zIndex={10} />
         <TextInput
           style={styles.infoFormInput}
           placeholderTextColor={COLORS.gray}
@@ -80,7 +69,7 @@ export default function NewSong() {
         />
       </View>
 
-      <SubmitButton label="Create song" handlePress={handleSubmit} />
+      <CustomButton label="Create song" handlePress={handleSubmit} />
     </View>
   );
 }

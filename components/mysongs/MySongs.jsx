@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, ScrollView, FlatList } from "react-native";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { COLORS, icons, SIZES } from "../../constants";
+import { useIsFocused } from "@react-navigation/native";
 import { FloatingAction } from "react-native-floating-action";
+import * as SQLite from 'expo-sqlite';
+import { COLORS, SIZES } from "../../constants";
 import SongCard from "./SongCard";
-// import * as DB from "../../database/database";
+import * as DB from "../../database/database";
 
 const actions = [
   {
@@ -16,31 +17,38 @@ const actions = [
   },
 ];
 
-const mySongs = [
-  { id: 1, title: 'Mind Breaker', artist: 'Paul Deep', bpm: 123, key: '4A', style: 'Ethnic' },
-  { id: 2, title: 'Illusions', artist: 'Cristoph', bpm: 125, key: '5A', style: 'Progressive' },
-  { id: 3, title: 'Mirage', artist: 'Pryda', bpm: 126, key: '8A', style: 'Progressive' },
-  { id: 4, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-  { id: 5, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-  { id: 6, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-  { id: 7, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-  { id: 8, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-  { id: 9, title: 'Catuca', artist: 'Classmatic', bpm: 128, key: '10A', style: 'TH Brazil Latin' },
-]
-
 export default function MySongs() {
   const router = useRouter();
-  // useEffect(() => {
-  //   console.log('My songs screen');
-  //   const loadMySongs = async () => {
-  //     console.log('Will load my songs');
-  //     const dbConnection = await DB.getDBConnection();
-  //     // const mySongs = await DB.getMySongs(dbConnection);
-  //     // console.log('mySongs', mySongs);
-  //   };
+  const isFocused = useIsFocused();
 
-  //   loadMySongs();
-  // }, []);
+  const [songs, setSongs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
+  const [transactionCount, setTransactionCount] = useState(0);
+
+  const handleSuccessFetch = (_, { rows }) => {
+    setSongs(rows._array);
+    setIsLoading(false);
+  }
+
+  const handleFailedFetch = () => {
+    console.log('Failed Fetch');
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    if (!isFocused) {
+      setIsLoading(true);
+    } else {
+      db.transaction(
+        (tx) => {
+          tx.executeSql(DB.getMySongsQuery, [], handleSuccessFetch, handleFailedFetch);
+        },
+        null,
+        () => setTransactionCount(transactionCount + 1),
+      );
+    }
+  }, [isFocused]);
 
   const handleActionButtonClick = (buttonName) => {
     if (buttonName === 'bt-new-song') {
@@ -49,14 +57,18 @@ export default function MySongs() {
     }
   }
 
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Loading transitions...</Text>
+      </View>
+    );
+  }
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, padding: SIZES.small }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <FlatList
-          data={mySongs}
-          renderItem={({ item }) => <SongCard song={item} />}
-          keyExtractor={item => item.id}
-        />
+        {songs.map((item)=> <SongCard song={item} key={item.song_id} />)}
       </ScrollView>
 
       <FloatingAction
@@ -64,6 +76,7 @@ export default function MySongs() {
         distanceToEdge={SIZES.small}
         onPressItem={handleActionButtonClick}
       />
-    </SafeAreaView>
+    </View>
   );
 }
+

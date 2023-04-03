@@ -32,21 +32,21 @@ const Layout = () => {
   return (
     <Drawer >
       <Drawer.Screen
-        name="index" // This is the name of the page and must match the url from root
+        name="index"
         options={{
           drawerLabel: 'Transitions',
           title: 'Transitions',
         }} 
       />
       <Drawer.Screen
-        name="mysongs" // This is the name of the page and must match the url from root
+        name="mysongs"
         options={{
           drawerLabel: 'My songs',
           title: 'My songs',
         }} 
       />
       <Drawer.Screen
-        name="newtransition" // This is the name of the page and must match the url from root
+        name="newtransition"
         options={{
           drawerLabel: 'New transition',
           title: 'New transition',
@@ -54,11 +54,18 @@ const Layout = () => {
         }}
       />
       <Drawer.Screen
-        name="newsong" // This is the name of the page and must match the url from root
+        name="newsong"
         options={{
           drawerLabel: 'New song',
           title: 'New song',
           drawerItemStyle: { display: 'none' }
+        }}
+      />
+      <Drawer.Screen
+        name="storage"
+        options={{
+          drawerLabel: 'Storage',
+          title: 'Storage',
         }}
       />
     </Drawer>

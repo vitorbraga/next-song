@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { View, ScrollView, SafeAreaView, Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
+import * as SQLite from 'expo-sqlite';
 
 import { COLORS, icons, images, SIZES } from "../constants";
 import { Home } from "../components";
 import { FloatingAction } from "react-native-floating-action";
-// import * as DB from "../database/database";
+import * as DB from "../database/database";
+import { useIsFocused } from "@react-navigation/native";
 
 const actions = [
   {
@@ -18,22 +20,48 @@ const actions = [
 
 const Index = () => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
-  // useEffect(() => {
-  //   console.log("Index");
-  //   const initDatabase = async () => {
-  //     console.log('Will init database');
-  //     const dbConnection = await DB.getDBConnection();
-  //     // await DB.createTables(dbConnection);
-  //   };
+  const isFocused = useIsFocused();
 
-  //   initDatabase();
-  // }, []);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [transactionCount, setTransactionCount] = useState(0);
+  const [db, setDb] = useState(SQLite.openDatabase('nextsong.db'));
+
+  useEffect(() => {
+    console.log('useEffect index', isFocused);
+    if (!isFocused) {
+      setIsLoading(true);
+    } else {
+      console.log('Will try to create table');
+      db.transaction(tx => {
+        tx.executeSql(DB.songsTableQuery);
+        tx.executeSql(DB.transitionsTableQuery);
+      },
+      null,
+      () => setTransactionCount(transactionCount + 1));
+  
+      // db.transaction(tx => {
+      //   tx.executeSql(DB.getMyTransitionsQuery, null,
+      //     (txObj, resultSet) => console.log(resultSet.rows._array),
+      //     (txObj, error) => console.log(error)
+      //   );
+      // });
+      setIsLoading(false);
+    }
+  }, [db, isFocused]);
 
   const handleActionButtonClick = (buttonName) => {
     if (buttonName === 'bt-new-transition') {
       router.push(`/newtransition`)
     }
+  }
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Loading transitions...</Text>
+      </View>
+    );
   }
 
   return (

@@ -3,12 +3,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeaderBtn } from "../components";
 import NewTransition from "../components/newtransition/NewTransition";
 import { COLORS, icons } from "../constants";
+import { View } from "react-native";
 
 const NewTransitionPage = () => {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -26,7 +27,7 @@ const NewTransitionPage = () => {
       />
 
       <NewTransition />
-    </SafeAreaView>
+    </View>
   );
 };
 
