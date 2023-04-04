@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { View, Text, ScrollView, FlatList } from "react-native";
 import { useRouter } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
-import { FloatingAction } from "react-native-floating-action";
 import * as SQLite from 'expo-sqlite';
 import { COLORS, SIZES } from "../../constants";
 import SongCard from "./SongCard";
@@ -50,13 +49,6 @@ export default function MySongs() {
     }
   }, [isFocused]);
 
-  const handleActionButtonClick = (buttonName) => {
-    if (buttonName === 'bt-new-song') {
-      router.push('/newsong');
-      console.log('button new song');
-    }
-  }
-
   if (isLoading) {
     return (
       <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
@@ -70,12 +62,6 @@ export default function MySongs() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {songs.map((item)=> <SongCard song={item} key={item.song_id} />)}
       </ScrollView>
-
-      <FloatingAction
-        actions={actions}
-        distanceToEdge={SIZES.small}
-        onPressItem={handleActionButtonClick}
-      />
     </View>
   );
 }

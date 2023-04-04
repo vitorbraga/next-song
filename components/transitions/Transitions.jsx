@@ -3,13 +3,12 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import * as SQLite from 'expo-sqlite';
-import { COLORS, icons, SIZES } from "../../constants";
+import { COLORS, icons, MAX_TRANSITIONS, SIZES } from "../../constants";
 import * as DB from "../../database/database";
 import { useIsFocused } from "@react-navigation/native";
 
@@ -63,27 +62,18 @@ const Transitions = () => {
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Text style={styles.welcomeMessage}>Find a transition</Text>
-      </View>
-
       <View style={styles.searchContainer}>
-        <View style={styles.searchWrapper}>
-          <TextInput
-            style={styles.searchInput}
-            value={searchTerm}
-            onChangeText={handleChangeSearchTerm}
-            placeholder='Which song are you mixing from?'
-          />
-        </View>
-
-        {/* <TouchableOpacity style={styles.searchBtn} onPress={handleSearchClick}>
-          <Image
-            source={icons.search}
-            resizeMode='contain'
-            style={styles.searchBtnImage}
-          />
-        </TouchableOpacity> */}
+        <Image
+          source={require('../../assets/icons/search.png')}
+          style={styles.imageStyle}
+        />
+        <TextInput
+          style={{ flex: 1, width: '100%' }}
+          value={searchTerm}
+          onChangeText={handleChangeSearchTerm}
+          placeholderTextColor={COLORS.gray}
+          placeholder='Which song are you mixing from?'
+        />
       </View>
 
       {isLoading ? (
@@ -91,8 +81,13 @@ const Transitions = () => {
           <Text>Loading transitions...</Text>
         </View>
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {filteredTransitions.slice(0, 10).map((item)=> <TransitionCard transition={item} key={item.transition_id} />)}
+        <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: SIZES.medium }}>
+          {filteredTransitions.length === 0 && (
+            <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
+              <Text>No transitions found</Text>
+            </View>
+          )}
+          {filteredTransitions.slice(0, MAX_TRANSITIONS).map((item) => <TransitionCard transition={item} key={item.transition_id} />)}
         </ScrollView>
       )}
     </View>

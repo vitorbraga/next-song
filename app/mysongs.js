@@ -17,8 +17,15 @@ const MySongsPage = () => {
           headerLeft: () => (
             <ScreenHeaderBtn
               iconUrl={icons.left}
-              dimension='60%'
+              dimension='80%'
               handlePress={() => router.back()}
+            />
+          ),
+          headerRight: () => (
+            <ScreenHeaderBtn
+              iconUrl={icons.plusBlack}
+              dimension='60%'
+              handlePress={() => router.push('/newsong')}
             />
           ),
           headerTitle: "My songs",

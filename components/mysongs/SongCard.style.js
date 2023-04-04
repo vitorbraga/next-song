@@ -3,57 +3,65 @@ import { StyleSheet } from "react-native";
 import { COLORS, FONT, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-  },
   songCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: "100%",
     height: 80,
-    justifyContent: "space-between",
-    backgroundColor: COLORS.white,
-    borderRadius: SIZES.xSmall,
-    flexDirection: "row",
-    alignItems: "center",
-    // paddingHorizontal: SIZES.xxSmall,
-    marginBottom: SIZES.small,
+    borderColor: COLORS.gray1,
     borderWidth : 1,
+    paddingHorizontal: SIZES.xxSmall,
+    marginBottom: SIZES.small,
+    borderRadius: SIZES.xSmall,
   },
   leftBox: {
-    width: "65%",
-    // borderWidth : 1,
+    width: "68%",
     flexDirection: "column",
+    justifyContent: "space-evenly",
+  },
+  rightBox: {
+    width: "30%",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+  },
+  rightTopBox: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    width: "100%",
+  },
+  rightBottomBox: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    width: "100%",
   },
   title: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
   },
+  mixInfo: {
+    fontFamily: FONT.bold,
+    fontSize: SIZES.medium,
+    color: COLORS.gray,
+    marginLeft: SIZES.xxxSmall,
+  },
   artist: {
     fontFamily: FONT.regular,
     fontSize: SIZES.medium,
-    color: COLORS.gray,
-  },
-  rightBox: {
-    width: "30%",
-    // borderWidth : 1,
-    flexDirection: "column",
-  },
-  metricsBox: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "space-between",
+    color: COLORS.gray0,
   },
   bpm: {
     fontFamily: FONT.bold,
-    fontSize: SIZES.large,
+    fontSize: SIZES.medium,
+    color: '#333',
+    marginRight: SIZES.xSmall,
+    paddingHorizontal: SIZES.xxxSmall,
+    height: SIZES.large,
+    borderColor: COLORS.gray,
+    backgroundColor: COLORS.gray1,
+    borderRadius: SIZES.xxxSmall,
+    overflow: "hidden",
   },
-  key: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.large,
-  },
-  songStyle: {
-    fontFamily: FONT.medium,
-    alignSelf: "flex-end",
-  }
 });
 
 export default styles;

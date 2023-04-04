@@ -1,6 +1,5 @@
 import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ScreenHeaderBtn } from "../components";
 import NewSong from "../components/newsong/NewSong";
 import { COLORS, icons } from "../constants";
@@ -18,7 +17,7 @@ const NewSongPage = () => {
           headerLeft: () => (
             <ScreenHeaderBtn
               iconUrl={icons.left}
-              dimension='60%'
+              dimension='80%'
               handlePress={() => router.back()}
             />
           ),

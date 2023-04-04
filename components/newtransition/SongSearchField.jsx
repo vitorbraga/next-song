@@ -11,7 +11,6 @@ import styles from "./SongSearchField.style";
 export default function SongSearch({ placeholder, onSelectSong }) {
   const isFocused = useIsFocused();
 
-  // const searchRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [remoteDataSet, setRemoteDataSet] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -44,7 +43,7 @@ export default function SongSearch({ placeholder, onSelectSong }) {
   }, [isFocused]);
 
   const handleSetSelectItem = (selectedItem) => {
-    console.log('handleSetSelectItem', selectedItem);
+    // console.log('handleSetSelectItem', selectedItem);
     if (selectedItem) {
       setSelectedItem(selectedItem);
       onSelectSong(selectedItem.id);
@@ -74,31 +73,22 @@ export default function SongSearch({ placeholder, onSelectSong }) {
     setLoading(false);
   };
 
-  // const onOpenSuggestionsList = useCallback((isOpened) => { 
-  //   if (isOpened) {
-  //     searchRef.current.blur();
-  //   }
-  // }, [])
 
   if (isLoading) {
     return (
-      // <View style={{ backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Loading songs...</Text>
-      // </View>
     );
   }
 
   return (
     <View style={styles.viewContainer}>
       <AutocompleteDropdown
-        ref={searchRef}
         containerStyle={styles.container}
         inputContainerStyle={styles.inputContainer}
         suggestionsListContainerStyle={styles.suggestionListContainer}
         suggestionsListTextStyle={styles.suggestionListText}
         dataSet={remoteDataSet}
         closeOnBlur={false}
-        // onOpenSuggestionsList={onOpenSuggestionsList}
         useFilter={false}
         clearOnFocus={false}
         showChevron={false}

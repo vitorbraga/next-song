@@ -1,56 +1,65 @@
 import { View, Text } from "react-native";
+import { KEY_COLOR_MAP, SONG_STYLES_COLOR_MAP } from "../../constants/songs";
 
 import styles from "./TransitionCard.style";
 
-// {
-//   "intro": "S3",
-//   "outro": "S1",
-//   "songFrom_artist": "Artists 1",
-//   "songFrom_bpm": 123,
-//   "songFrom_key": "12A",
-//   "songFrom_observation": "",
-//   "songFrom_style": "Techno",
-//   "songFrom_title": "Teste 1",
-//   "songTo_artist": "Artists 2",
-//   "songTo_bpm": 123,
-//   "songTo_key": "10A",
-//   "songTo_observation": "",
-//   "songTo_style": "Techno",
-//   "songTo_title": "Teste 3",
-//   "transition_id": 1,
-//   "transition_observation": ""
-// }
+// TODO: Move this to a separate file
+export function SongStyle({ songStyle }) {
+  const { backgroundColor, color } = SONG_STYLES_COLOR_MAP[songStyle];
+  return (
+    <Text
+      style={[styles.songStyle, { backgroundColor, color }]}
+      numberOfLines={1}
+    >
+      {songStyle}
+    </Text>
+  );
+}
+
+// TODO: Move this to a separate file
+export function Key({ songKey }) {
+  const { backgroundColor, color } = KEY_COLOR_MAP[songKey];
+  return (
+    <Text style={[styles.key, { backgroundColor, color }]}>{songKey}</Text>
+  );
+}
 
 export default function TransitionCard({ transition }) {
   return (
     <View style={styles.transitionCard}>
       <View style={styles.topBox}>
         <View style={styles.leftBox}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{transition.songFrom_title}</Text>
+            <Text style={styles.mixInfo}>({transition.outro})</Text>
+          </View>
           <Text style={styles.artist}>{transition.songFrom_artist}</Text>
-          <Text style={styles.title}>{transition.songFrom_title} ({transition.outro})</Text>
         </View>
         <View style={styles.rightBox}>
           <View style={styles.rightTopBox}>
             <Text style={styles.bpm}>{transition.songFrom_bpm}</Text>
-            <Text style={styles.key}>{transition.songFrom_key}</Text>
+            <Key songKey={transition.songFrom_key} />
           </View>
           <View style={styles.rightBottomBox}>
-            <Text style={styles.style}>{transition.songFrom_style}</Text>
+            <SongStyle songStyle={transition.songFrom_style} />
           </View>
         </View>
       </View>
       <View style={styles.bottomBox}>
         <View style={styles.leftBox}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{transition.songTo_title}</Text>
+            <Text style={styles.mixInfo}>({transition.intro})</Text>
+          </View>
           <Text style={styles.artist}>{transition.songTo_artist}</Text>
-          <Text style={styles.title}>{transition.songTo_title} ({transition.intro})</Text>
         </View>
         <View style={styles.rightBox}>
           <View style={styles.rightTopBox}>
             <Text style={styles.bpm}>{transition.songTo_bpm}</Text>
-            <Text style={styles.key}>{transition.songTo_key}</Text>
+            <Key songKey={transition.songTo_key} />
           </View>
           <View style={styles.rightBottomBox}>
-            <Text style={styles.style}>{transition.songTo_style}</Text>
+            <SongStyle songStyle={transition.songTo_style} />
           </View>
         </View>
       </View>

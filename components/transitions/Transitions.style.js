@@ -13,10 +13,28 @@ const styles = StyleSheet.create({
     marginTop: SIZES.large,
     height: 50,
   },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderWidth: 0.5,
+    height: 50,
+    width: '100%',
+    borderRadius: SIZES.xxxSmall,
+    marginTop: SIZES.large,
+  },
+  imageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+    alignItems: 'center',
+  },
   searchWrapper: {
     flex: 1,
     backgroundColor: COLORS.white,
-    marginRight: SIZES.small,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: SIZES.medium,
@@ -27,6 +45,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     paddingHorizontal: SIZES.medium,
+    borderRadius: SIZES.xxSmall,
+    borderWidth : 1,
   },
   searchBtn: {
     width: 50,
@@ -36,26 +56,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  searchBtnImage: {
-    width: "50%",
-    height: "50%",
-    tintColor: COLORS.white,
-  },
-  tabsContainer: {
-    width: "100%",
-    marginTop: SIZES.medium,
-  },
-  tab: (activeJobType, item) => ({
-    paddingVertical: SIZES.small / 2,
-    paddingHorizontal: SIZES.small,
-    borderRadius: SIZES.medium,
-    borderWidth: 1,
-    borderColor: activeJobType === item ? COLORS.secondary : COLORS.gray2,
-  }),
-  tabText: (activeJobType, item) => ({
-    fontFamily: FONT.medium,
-    color: activeJobType === item ? COLORS.secondary : COLORS.gray2,
-  }),
 });
 
 export default styles;
