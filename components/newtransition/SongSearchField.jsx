@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TextInput, View, Text } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
@@ -6,11 +6,12 @@ import * as SQLite from 'expo-sqlite';
 import { COLORS, FONT, SIZES } from "../../constants";
 import * as DB from "../../database/database";
 
-import styles from "./SongSearch.style";
+import styles from "./SongSearchField.style";
 
 export default function SongSearch({ placeholder, onSelectSong }) {
   const isFocused = useIsFocused();
 
+  // const searchRef = useRef(null);
   const [loading, setLoading] = useState(false);
   const [remoteDataSet, setRemoteDataSet] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -73,6 +74,12 @@ export default function SongSearch({ placeholder, onSelectSong }) {
     setLoading(false);
   };
 
+  // const onOpenSuggestionsList = useCallback((isOpened) => { 
+  //   if (isOpened) {
+  //     searchRef.current.blur();
+  //   }
+  // }, [])
+
   if (isLoading) {
     return (
       // <View style={{ backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
@@ -84,12 +91,14 @@ export default function SongSearch({ placeholder, onSelectSong }) {
   return (
     <View style={styles.viewContainer}>
       <AutocompleteDropdown
+        ref={searchRef}
         containerStyle={styles.container}
         inputContainerStyle={styles.inputContainer}
         suggestionsListContainerStyle={styles.suggestionListContainer}
         suggestionsListTextStyle={styles.suggestionListText}
         dataSet={remoteDataSet}
-        closeOnBlur={true}
+        closeOnBlur={false}
+        // onOpenSuggestionsList={onOpenSuggestionsList}
         useFilter={false}
         clearOnFocus={false}
         showChevron={false}
@@ -99,9 +108,11 @@ export default function SongSearch({ placeholder, onSelectSong }) {
           style: { fontFamily: FONT.regular, fontSize: 14, lineHeight: 25 },
           placeholderTextColor: COLORS.gray,
         }}
-        renderItem={(item, text) => <Text style={{ padding: 15 }}>{item.title}</Text>}
-        onSelectItem={handleSetSelectItem}
+        keyboardShouldPersistTaps="always"
+        onBlur={(e) => {e.stopPropagation(); console.log('onBlur')}}
+        // renderItem={(item, text) => <Text style={{ padding: 15 }}>{item.title}</Text>}
         loading={loading}
+        onSelectItem={handleSetSelectItem}
         onChangeText={getSuggestions}
         EmptyResultComponent={<Text style={{ padding: 10, fontSize: 15 }}>No results</Text>}
       />

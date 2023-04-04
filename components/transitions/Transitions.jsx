@@ -16,23 +16,36 @@ import { useIsFocused } from "@react-navigation/native";
 import styles from "./Transitions.style";
 import TransitionCard from "./TransitionCard";
 
-const Transitions = ({ searchTerm, setSearchTerm, handleClick }) => {
+const Transitions = () => {
   const router = useRouter();
-  const [transitions, setTransitions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [allTransitions, setAllTransitions] = useState([]);
+  const [filteredTransitions, setFilteredTransitions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
   const [transactionCount, setTransactionCount] = useState(0);
   const isFocused = useIsFocused();
 
   const handleSuccessFetch = (_, { rows }) => {
-    setTransitions(rows._array);
+    setAllTransitions(rows._array);
+    setFilteredTransitions(rows._array);
     setIsLoading(false);
-  }
+  };
 
   const handleFailedFetch = (_, err) => {
     console.log('Failed Fetch', err);
     setIsLoading(false);
-  }
+  };
+
+  const handleChangeSearchTerm = (text) => {
+    setSearchTerm(text);
+    if (text && text.length > 3) {
+      const filtered = allTransitions.filter((item) => item.songFrom_artist.includes(text) || item.songFrom_title.includes(text));
+      setFilteredTransitions(filtered);
+    } else {
+      setFilteredTransitions(allTransitions);
+    }
+  };
 
   useEffect(() => {
     if (!isFocused) {
@@ -40,7 +53,7 @@ const Transitions = ({ searchTerm, setSearchTerm, handleClick }) => {
     } else {
       db.transaction(
         (tx) => {
-          tx.executeSql(DB.getTranstionsWithSongs, [], handleSuccessFetch, handleFailedFetch);
+          tx.executeSql(DB.getAllTranstionsWithSongs, [], handleSuccessFetch, handleFailedFetch);
         },
         null,
         () => setTransactionCount(transactionCount + 1),
@@ -59,18 +72,18 @@ const Transitions = ({ searchTerm, setSearchTerm, handleClick }) => {
           <TextInput
             style={styles.searchInput}
             value={searchTerm}
-            onChangeText={(text) => setSearchTerm(text)}
+            onChangeText={handleChangeSearchTerm}
             placeholder='Which song are you mixing from?'
           />
         </View>
 
-        <TouchableOpacity style={styles.searchBtn} onPress={handleClick}>
+        {/* <TouchableOpacity style={styles.searchBtn} onPress={handleSearchClick}>
           <Image
             source={icons.search}
             resizeMode='contain'
             style={styles.searchBtnImage}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {isLoading ? (
@@ -79,7 +92,7 @@ const Transitions = ({ searchTerm, setSearchTerm, handleClick }) => {
         </View>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false}>
-          {transitions.map((item)=> <TransitionCard transition={item} key={item.transition_id} />)}
+          {filteredTransitions.slice(0, 10).map((item)=> <TransitionCard transition={item} key={item.transition_id} />)}
         </ScrollView>
       )}
     </View>

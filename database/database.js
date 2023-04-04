@@ -62,7 +62,7 @@ export const insertNewTransitionQuery = 'INSERT INTO transitions (songFrom, song
 
 export const searchSongsQuery = 'SELECT * FROM songs WHERE title LIKE ? OR artist LIKE ?';
 
-export const getTranstionsWithSongs = `
+export const getAllTranstionsWithSongs = `
   SELECT 
     t.transition_id, 
     t.outro, 

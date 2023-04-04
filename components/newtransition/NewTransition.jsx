@@ -5,7 +5,7 @@ import * as SQLite from 'expo-sqlite';
 import CustomButton from "../common/CustomButton/CustomButton";
 import { COLORS, SIZES } from "../../constants";
 import * as DB from "../../database/database";
-import SongSearch from "./SongSearch";
+import SongSearchField from "./SongSearchField";
 
 import styles from "./NewTransition.style";
 /*
@@ -41,7 +41,7 @@ export default function NewTransition() {
   const handleSuccessInsertion = () => {
     alert('Transition inserted successfully');
     setNewTransition(initialTransitionState);
-    router.push('/index');
+    router.push('/');
   }
 
   const handleFailedInsertion = (tx, error) => {
@@ -71,7 +71,7 @@ export default function NewTransition() {
   return (
     <View style={{ flex: 1, paddingLeft: SIZES.small, paddingRight: SIZES.small }}>
       <View style={[styles.formRowTwoFields, { zIndex: 10 }]}>
-        <SongSearch
+        <SongSearchField
           placeholder="Search for a song to mix out"
           onSelectSong={handleSelectSongFrom}
         />
@@ -85,7 +85,7 @@ export default function NewTransition() {
       </View>
 
       <View style={[styles.formRowTwoFields, { zIndex: 8 }]}>
-        <SongSearch
+        <SongSearchField
           placeholder="Search for a song to mix in"
           onSelectSong={handleSelectSongTo}
         />
@@ -108,7 +108,7 @@ export default function NewTransition() {
         />
       </View>
 
-      <CustomButton label="Create song" handlePress={handleSubmit} />
+      <CustomButton label="Create transition" handlePress={handleSubmit} />
     </View>
   );
 }

@@ -67,15 +67,7 @@ const Index = () => {
           padding: SIZES.medium,
         }}
       >
-        <Transitions
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          handleClick={() => {
-            if (searchTerm) {
-              router.push(`/search/${searchTerm}`);
-            }
-          }}
-        />
+        <Transitions />
       </View>
       <FloatingAction
         actions={actions}
