@@ -7,6 +7,7 @@ import styles from "./NewSong.style";
 import CustomButton from "../common/CustomButton/CustomButton";
 import * as DB from "../../database/database";
 import { useRouter } from "expo-router";
+import { validateKey } from "../../utils/validations";
 
 const initialSongState = { title: '', artist: '', key: '', bpm: '', observation: '' };
 
@@ -33,6 +34,11 @@ export default function NewTransition() {
   const handleSubmit = async () => {
     if (!newSong.title || !newSong.artist || !newSong.key || !newSong.bpm || !style) {
       alert('Please fill all fields');
+      return;
+    }
+
+    if (!validateKey(newSong.key)) {
+      alert('Invalid key');
       return;
     }
 

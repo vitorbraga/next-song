@@ -25,14 +25,34 @@ export default function TransitionCard({ transition }) {
   return (
     <View style={styles.transitionCard}>
       <View style={styles.topBox}>
-        <Text style={styles.title}>{transition.songFrom_title}</Text>
-        <Text style={styles.bpm}>{transition.songFrom_bpm}</Text>
-        <Text style={styles.key}>{transition.songFrom_key}</Text>
+        <View style={styles.leftBox}>
+          <Text style={styles.artist}>{transition.songFrom_artist}</Text>
+          <Text style={styles.title}>{transition.songFrom_title} ({transition.outro})</Text>
+        </View>
+        <View style={styles.rightBox}>
+          <View style={styles.rightTopBox}>
+            <Text style={styles.bpm}>{transition.songFrom_bpm}</Text>
+            <Text style={styles.key}>{transition.songFrom_key}</Text>
+          </View>
+          <View style={styles.rightBottomBox}>
+            <Text style={styles.style}>{transition.songFrom_style}</Text>
+          </View>
+        </View>
       </View>
       <View style={styles.bottomBox}>
-        <Text style={styles.title}>{transition.songTo_title}</Text>
-        <Text style={styles.bpm}>{transition.songTo_bpm}</Text>
-        <Text style={styles.key}>{transition.songTo_key}</Text>
+        <View style={styles.leftBox}>
+          <Text style={styles.artist}>{transition.songTo_artist}</Text>
+          <Text style={styles.title}>{transition.songTo_title} ({transition.intro})</Text>
+        </View>
+        <View style={styles.rightBox}>
+          <View style={styles.rightTopBox}>
+            <Text style={styles.bpm}>{transition.songTo_bpm}</Text>
+            <Text style={styles.key}>{transition.songTo_key}</Text>
+          </View>
+          <View style={styles.rightBottomBox}>
+            <Text style={styles.style}>{transition.songTo_style}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
