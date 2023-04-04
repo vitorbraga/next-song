@@ -84,3 +84,7 @@ export const getAllTranstionsWithSongs = `
     transitions t
     JOIN songs sf ON t.songFrom = sf.song_id
     JOIN songs st ON t.songTo = st.song_id;`;
+
+export const deleteSongsQuery = 'DELETE FROM songs';
+
+export const deleteTransitionsQuery = 'DELETE FROM transitions';

@@ -60,6 +60,11 @@ export default function MySongs() {
   return (
     <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, padding: SIZES.small }}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        {songs.length === 0 && (
+          <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>You have no songs yet.</Text>
+          </View>
+        )}
         {songs.map((item)=> <SongCard song={item} key={item.song_id} />)}
       </ScrollView>
     </View>

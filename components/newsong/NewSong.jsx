@@ -62,7 +62,7 @@ export default function NewTransition() {
   }
 
   return (
-    <View style={{ paddingLeft: SIZES.small, paddingRight: SIZES.small, backgroundColor: 'yellow' }}>
+    <View style={{ paddingLeft: SIZES.small, paddingRight: SIZES.small }}>
       <View style={styles.formRow}>
         <TextInput
           style={styles.formInput}

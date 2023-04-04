@@ -1,9 +1,9 @@
-import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback } from "react";
 import { Drawer } from "../components/common/header/Drawer";
-
+import { ScreenHeaderBtn } from "../components";
+import { icons } from "../constants";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,18 +19,28 @@ const Layout = () => {
     DMRegular: require("../assets/fonts/DMSans-Regular.ttf"),
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-        await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  // const onLayoutRootView = useCallback(async () => {
+  //   if (fontsLoaded) {
+  //       await SplashScreen.hideAsync();
+  //   }
+  // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
   }
 
   return (
-    <Drawer >
+    <Drawer
+      screenOptions={({ navigation }) => ({
+        headerLeft: (props) => (
+          <ScreenHeaderBtn
+            iconUrl={icons.menu}
+            dimension='60%'
+            handlePress={() => navigation.toggleDrawer()}
+          />
+        ),
+      })}
+    >
       <Drawer.Screen
         name="index"
         options={{

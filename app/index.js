@@ -23,7 +23,6 @@ const Index = () => {
       console.log('Will try to create table');
       db.transaction(tx => {
         tx.executeSql(DB.songsTableQuery);
-        // tx.executeSql(DB.dropTransitionsTableQuery);
         tx.executeSql(DB.transitionsTableQuery);
       },
       null,
