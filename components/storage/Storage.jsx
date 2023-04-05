@@ -3,7 +3,7 @@ import { View, Text, Alert } from "react-native";
 import * as SQLite from 'expo-sqlite';
 import * as DB from '../../database/database';
 import CustomButton from "../common/CustomButton/CustomButton";
-import { COLORS, SIZES } from "../../constants";
+import { SIZES } from "../../constants";
 import * as DocumentPicker from 'expo-document-picker';
 import { parse } from 'papaparse';
 import { validateKey } from "../../utils/validations";
@@ -13,7 +13,6 @@ import styles from "./Storage.style";
 export default function Storage() {
   const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
   const [transactionCount, setTransactionCount] = useState(0);
-  const [songsInserted, setSongsInserted] = useState(false);
 
   const handleImportSongs = async () => {
     const { type, uri } = await DocumentPicker.getDocumentAsync();
@@ -28,8 +27,15 @@ export default function Storage() {
           parsedData.forEach((song) => {
             const { ID, TITLE, ARTIST, KEY, BPM, STYLE, OBSERVATION } = song;
 
-            if (!TITLE || !ARTIST || !KEY || !BPM || !STYLE) return;
-            if (!validateKey(KEY)) return;
+            if (!ID || !TITLE || !ARTIST || !KEY || !BPM || !STYLE) {
+              alert('Missing data in songs.csv');
+              return;
+            }
+
+            if (!validateKey(KEY)) {
+              alert('Invalid key in songs.csv');
+              return;
+            }
 
             tx.executeSql(DB.insertSongWithId, [ID, TITLE, ARTIST, KEY, BPM, STYLE, OBSERVATION]);
           });
@@ -39,7 +45,6 @@ export default function Storage() {
         },
         () => {
           setTransactionCount(transactionCount + 1);
-          setSongsInserted(true);
           alert('Songs inserted successfully');
         },
       );
@@ -57,9 +62,12 @@ export default function Storage() {
       db.transaction(
         (tx) => {
           parsedData.forEach((transition) => {
-            const { SONGFROM, SONGTO, OUTRO, INTRO, OBSERVATION } = transition;
+            const { ID, SONGFROM, SONGTO, OUTRO, INTRO, OBSERVATION } = transition;
 
-            if (!SONGFROM || !SONGTO || !OUTRO || !INTRO) return;
+            if (!ID || !SONGFROM || !SONGTO || !OUTRO || !INTRO) {
+              alert('Missing data in transitions.csv');
+              return;
+            }
 
             tx.executeSql(DB.insertTransitionWithId, [ID, SONGFROM, SONGTO, OUTRO, INTRO, OBSERVATION]);
           });
@@ -109,7 +117,7 @@ export default function Storage() {
       <Text>Use it to import songs and transitions from CSV files.</Text>
       <Text>You need to first upload the songs.csv. If it is uploaded successfully, you will be able to upload the transitions.csv file too.</Text>
       <CustomButton label="Import songs" handlePress={handleImportSongs} />
-      {songsInserted && <CustomButton label="Import transitions" handlePress={handleImportTransitions} />}
+      <CustomButton label="Import transitions" handlePress={handleImportTransitions} />
       
       <View style={styles.infoBox}>
         <Text style={styles.title}>Exporting</Text>
