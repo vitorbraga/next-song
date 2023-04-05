@@ -9,29 +9,6 @@ export const exportDb = async () => {
   await Sharing.shareAsync(FileSystem.documentDirectory + `SQLite/${DATABASE_NAME}`);
 }
 
-const importDb = async (db) => {
-  let result = await DocumentPicker.getDocumentAsync({
-    copyToCacheDirectory: true
-  });
-
-  if (result.type === 'success') {
-    setIsLoading(true);
-
-    if (!(await FileSystem.getInfoAsync(FileSystem.documentDirectory + 'SQLite')).exists) {
-      await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'SQLite');
-    }
-
-    const base64 = await FileSystem.readAsStringAsync(
-      result.uri,
-      { encoding: FileSystem.EncodingType.Base64 }
-    );
-
-    await FileSystem.writeAsStringAsync(FileSystem.documentDirectory + `SQLite/${DATABASE_NAME}`, base64, { encoding: FileSystem.EncodingType.Base64 });
-    await db.closeAsync();
-    db = SQLite.openDatabase(DATABASE_NAME);
-  }
-};
-
 export const songsTableQuery = `CREATE TABLE IF NOT EXISTS songs (
     song_id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
@@ -88,3 +65,7 @@ export const getAllTranstionsWithSongs = `
 export const deleteSongsQuery = 'DELETE FROM songs';
 
 export const deleteTransitionsQuery = 'DELETE FROM transitions';
+
+export const insertSongWithId = 'INSERT INTO songs (song_id, title, artist, key, bpm, style, observation) VALUES (?, ?, ?, ?, ?, ?, ?)';
+
+export const insertTransitionWithId = 'INSERT INTO transitions (transition_id, songFrom, songTo, outro, intro, observation) VALUES (?, ?, ?, ?, ?, ?)';

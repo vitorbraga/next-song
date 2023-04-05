@@ -4,7 +4,21 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "next-song",
-    "slug": "next-song"
+    "name": "NextSong",
+    "icon": "assets/icon.png",
+    "splash": {
+      "image": "assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "slug": "next-song",
+    "extra": {
+      "eas": {
+        "projectId": "5001948a-6a5b-4f69-87cb-945c9ba9d6b2"
+      }
+    },
+    "android": {
+      "package": "com.vitorbraga.nextsong"
+    }
   }
 }

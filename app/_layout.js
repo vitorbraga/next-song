@@ -1,6 +1,5 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback } from "react";
 import { Drawer } from "../components/common/header/Drawer";
 import { ScreenHeaderBtn } from "../components";
 import { icons } from "../constants";
