@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as SQLite from 'expo-sqlite';
 import styles from "./NewSong.style";
 import CustomButton from "../common/CustomButton/CustomButton";
-import * as DB from "../../database/database";
+import * as DB from "../../constants/database";
 import { useRouter } from "expo-router";
 import { validateKey } from "../../utils/validations";
 

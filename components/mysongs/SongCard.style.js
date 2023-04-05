@@ -50,18 +50,6 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     color: COLORS.gray0,
   },
-  bpm: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.medium,
-    color: '#333',
-    marginRight: SIZES.xSmall,
-    paddingHorizontal: SIZES.xxxSmall,
-    height: SIZES.large,
-    borderColor: COLORS.gray,
-    backgroundColor: COLORS.gray1,
-    borderRadius: SIZES.xxxSmall,
-    overflow: "hidden",
-  },
 });
 
 export default styles;

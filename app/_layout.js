@@ -1,15 +1,10 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Drawer } from "../components/common/header/Drawer";
-import { ScreenHeaderBtn } from "../components";
+import { Drawer } from "../components/common/Drawer";
 import { icons } from "../constants";
+import ScreenHeaderBtn from "../components/common/ScreenHeaderBtn/ScreenHeaderBtn";
 
 SplashScreen.preventAutoHideAsync();
-
-// export const unstable_settings = {
-//   // Ensure any route can link back to `/`
-//   initialRouteName: "home",
-// };
 
 const Layout = () => {
   const [fontsLoaded] = useFonts({
@@ -17,12 +12,6 @@ const Layout = () => {
     DMMedium: require("../assets/fonts/DMSans-Medium.ttf"),
     DMRegular: require("../assets/fonts/DMSans-Regular.ttf"),
   });
-
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (fontsLoaded) {
-  //       await SplashScreen.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;

@@ -56,6 +56,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  statusBox: {
+    backgroundColor: COLORS.lightWhite,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: SIZES.medium,
+  },
+  messageText: {
+    fontSize: SIZES.medium,
+    color: COLORS.tertiary,
+  },
+  errorText: {
+    fontSize: SIZES.medium,
+    color: COLORS.errorRed,
+  },
 });
 
 export default styles;

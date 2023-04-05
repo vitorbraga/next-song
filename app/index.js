@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { Stack, useRouter } from "expo-router";
 import * as SQLite from 'expo-sqlite';
-
-import { COLORS, icons, images, SIZES } from "../constants";
-import * as DB from "../database/database";
 import { useIsFocused } from "@react-navigation/native";
-import { ScreenHeaderBtn, Transitions } from "../components";
+
+import ScreenHeaderBtn from "../components/common/ScreenHeaderBtn/ScreenHeaderBtn";
+import Transitions from "../components/transitions/Transitions";
+import { COLORS, icons, SIZES } from "../constants";
+import * as DB from "../constants/database";
 
 const Index = () => {
   const router = useRouter();
@@ -14,13 +15,12 @@ const Index = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [transactionCount, setTransactionCount] = useState(0);
-  const [db, setDb] = useState(SQLite.openDatabase('nextsong.db'));
+  const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
 
   useEffect(() => {
     if (!isFocused) {
       setIsLoading(true);
     } else {
-      console.log('Will try to create table');
       db.transaction(tx => {
         tx.executeSql(DB.songsTableQuery);
         tx.executeSql(DB.transitionsTableQuery);

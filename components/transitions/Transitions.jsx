@@ -6,34 +6,34 @@ import {
   Image,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { useRouter } from "expo-router";
-import * as SQLite from 'expo-sqlite';
-import { COLORS, icons, MAX_TRANSITIONS, SIZES } from "../../constants";
-import * as DB from "../../database/database";
 import { useIsFocused } from "@react-navigation/native";
+import * as SQLite from 'expo-sqlite';
+
+import TransitionCard from "./TransitionCard";
+import CustomButton from "../common/CustomButton/CustomButton";
+import { COLORS, FetchStatus, MAX_TRANSITIONS, SIZES } from "../../constants";
+import * as DB from "../../constants/database";
 
 import styles from "./Transitions.style";
-import TransitionCard from "./TransitionCard";
 
 const Transitions = () => {
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [allTransitions, setAllTransitions] = useState([]);
   const [filteredTransitions, setFilteredTransitions] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
   const [transactionCount, setTransactionCount] = useState(0);
   const isFocused = useIsFocused();
 
+  const [fetchStatus, setFetchStatus ] = useState(FetchStatus.INITIAL);
+
   const handleSuccessFetch = (_, { rows }) => {
     setAllTransitions(rows._array);
     setFilteredTransitions(rows._array);
-    setIsLoading(false);
+    setFetchStatus(FetchStatus.SUCCESS);
   };
 
   const handleFailedFetch = (_, err) => {
-    console.log('Failed Fetch', err);
-    setIsLoading(false);
+    setFetchStatus(FetchStatus.FAILURE);
   };
 
   const handleChangeSearchTerm = (text) => {
@@ -46,17 +46,21 @@ const Transitions = () => {
     }
   };
 
+  const fetchTransitions = () => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(DB.getAllTranstionsWithSongs, [], handleSuccessFetch, handleFailedFetch);
+      },
+      null,
+      () => setTransactionCount(transactionCount + 1),
+    );
+  };
+
   useEffect(() => {
     if (!isFocused) {
-      setIsLoading(true);
+      setFetchStatus(FetchStatus.LOADING);
     } else {
-      db.transaction(
-        (tx) => {
-          tx.executeSql(DB.getAllTranstionsWithSongs, [], handleSuccessFetch, handleFailedFetch);
-        },
-        null,
-        () => setTransactionCount(transactionCount + 1),
-      );
+      fetchTransitions();
     }
   }, [isFocused]);
 
@@ -76,14 +80,25 @@ const Transitions = () => {
         />
       </View>
 
-      {isLoading ? (
-        <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
-          <Text>Loading transitions...</Text>
+      {fetchStatus === FetchStatus.LOADING && (
+        <View style={styles.statusBox}>
+          <Text style={styles.messageText}>Loading transitions...</Text>
         </View>
-      ) : (
+      )}
+      
+      {fetchStatus === FetchStatus.FAILURE && (
+        <View style={styles.statusBox}>
+          <Text style={styles.errorText}>Failed to fetch transitions.</Text>
+          <View style={{ width: 100 }}>
+            <CustomButton label="Retry" handlePress={fetchTransitions} variant="tertiary" />
+          </View>
+        </View>
+      )}
+
+      {fetchStatus === FetchStatus.SUCCESS && (
         <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: SIZES.medium }}>
           {filteredTransitions.length === 0 && (
-            <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={styles.statusBox}>
               <Text>No transitions found</Text>
             </View>
           )}

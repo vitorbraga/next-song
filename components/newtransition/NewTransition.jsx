@@ -4,7 +4,7 @@ import { useState } from "react";
 import * as SQLite from 'expo-sqlite';
 import CustomButton from "../common/CustomButton/CustomButton";
 import { COLORS, SIZES } from "../../constants";
-import * as DB from "../../database/database";
+import * as DB from "../../constants/database";
 import SongSearchField from "./SongSearchField";
 
 import styles from "./NewTransition.style";

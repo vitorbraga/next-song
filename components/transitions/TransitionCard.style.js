@@ -72,39 +72,11 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     color: COLORS.gray0,
   },
-  bpm: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.medium,
-    color: '#333',
-    marginRight: SIZES.xSmall,
-    paddingHorizontal: SIZES.xxxSmall,
-    height: SIZES.large,
-    borderColor: COLORS.gray,
-    backgroundColor: COLORS.gray1,
-    borderRadius: SIZES.xxxSmall,
-    overflow: "hidden",
-  },
-  key: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.medium,
-    height: SIZES.large,
-    paddingHorizontal: SIZES.xxxSmall,
-    overflow: "hidden",
-    borderRadius: SIZES.xxxSmall,
-    borderColor: COLORS.gray,
-  },
   info: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
     borderWidth: 1,
     borderColor: COLORS.gray,
-  },
-  songStyle: {
-    fontFamily: FONT.medium,
-    alignSelf: "flex-end",
-    paddingHorizontal: SIZES.xxxSmall,
-    borderRadius: SIZES.xxxSmall,
-    overflow: "hidden",
   }
 });
 

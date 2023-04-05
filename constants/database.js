@@ -1,13 +1,4 @@
-import * as SQLite from 'expo-sqlite';
-import * as Sharing from 'expo-sharing';
-import * as FileSystem from 'expo-file-system';
-import * as DocumentPicker from 'expo-document-picker';
-
 export const DATABASE_NAME = 'nextsong.db';
-
-export const exportDb = async () => {
-  await Sharing.shareAsync(FileSystem.documentDirectory + `SQLite/${DATABASE_NAME}`);
-}
 
 export const songsTableQuery = `CREATE TABLE IF NOT EXISTS songs (
     song_id INTEGER PRIMARY KEY AUTOINCREMENT,

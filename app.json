@@ -18,6 +18,7 @@
       }
     },
     "android": {
+      "userInterfaceStyle": "light",
       "package": "com.vitorbraga.nextsong"
     }
   }

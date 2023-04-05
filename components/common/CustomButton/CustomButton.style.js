@@ -16,6 +16,12 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontFamily: FONT.bold,
   },
+  secondary: {
+    backgroundColor: COLORS.secondary,
+  },
+  tertiary: {
+    backgroundColor: COLORS.tertiary,
+  },
 });
 
 export default styles;

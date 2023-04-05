@@ -4,7 +4,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import * as SQLite from 'expo-sqlite';
 import { COLORS, FONT, SIZES } from "../../constants";
-import * as DB from "../../database/database";
+import * as DB from "../../constants/database";
 
 import styles from "./SongSearchField.style";
 

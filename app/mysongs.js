@@ -1,7 +1,8 @@
 import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
-import { ScreenHeaderBtn } from "../components";
+
 import MySongs from "../components/mysongs/MySongs";
+import ScreenHeaderBtn from "../components/common/ScreenHeaderBtn/ScreenHeaderBtn";
 import { COLORS, icons } from "../constants";
 
 const MySongsPage = () => {

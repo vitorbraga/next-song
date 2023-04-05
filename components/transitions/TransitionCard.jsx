@@ -1,28 +1,10 @@
 import { View, Text } from "react-native";
-import { KEY_COLOR_MAP, SONG_STYLES_COLOR_MAP } from "../../constants/songs";
+
+import Key from "../common/Key/Key";
+import SongStyle from "../common/SongStyle/SongStyle";
+import Bpm from "../common/Bpm/Bpm";
 
 import styles from "./TransitionCard.style";
-
-// TODO: Move this to a separate file
-export function SongStyle({ songStyle }) {
-  const { backgroundColor, color } = SONG_STYLES_COLOR_MAP[songStyle];
-  return (
-    <Text
-      style={[styles.songStyle, { backgroundColor, color }]}
-      numberOfLines={1}
-    >
-      {songStyle}
-    </Text>
-  );
-}
-
-// TODO: Move this to a separate file
-export function Key({ songKey }) {
-  const { backgroundColor, color } = KEY_COLOR_MAP[songKey];
-  return (
-    <Text style={[styles.key, { backgroundColor, color }]}>{songKey}</Text>
-  );
-}
 
 export default function TransitionCard({ transition }) {
   return (
@@ -37,7 +19,7 @@ export default function TransitionCard({ transition }) {
         </View>
         <View style={styles.rightBox}>
           <View style={styles.rightTopBox}>
-            <Text style={styles.bpm}>{transition.songFrom_bpm}</Text>
+            <Bpm bpm={transition.songFrom_bpm} />
             <Key songKey={transition.songFrom_key} />
           </View>
           <View style={styles.rightBottomBox}>
@@ -55,7 +37,7 @@ export default function TransitionCard({ transition }) {
         </View>
         <View style={styles.rightBox}>
           <View style={styles.rightTopBox}>
-            <Text style={styles.bpm}>{transition.songTo_bpm}</Text>
+            <Bpm bpm={transition.songTo_bpm} />
             <Key songKey={transition.songTo_key} />
           </View>
           <View style={styles.rightBottomBox}>

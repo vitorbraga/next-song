@@ -1,5 +1,8 @@
 import { View, Text } from "react-native";
-import { SongStyle, Key } from "../transitions/TransitionCard";
+
+import Key from "../common/Key/Key";
+import SongStyle from "../common/SongStyle/SongStyle";
+import Bpm from "../common/Bpm/Bpm";
 
 import styles from "./SongCard.style";
 
@@ -12,7 +15,7 @@ export default function SongCard({ song }) {
       </View>
       <View style={styles.rightBox}>
         <View style={styles.rightTopBox}>
-          <Text style={styles.bpm}>{song.bpm}</Text>
+          <Bpm bpm={song.bpm} />
           <Key songKey={song.key} />
         </View>
         <View style={styles.rightBottomBox}>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import * as SQLite from 'expo-sqlite';
-import * as DB from '../../database/database';
+import * as DB from '../../constants/database';
 import CustomButton from "../common/CustomButton/CustomButton";
 import { SIZES } from "../../constants";
 import * as DocumentPicker from 'expo-document-picker';
@@ -85,7 +85,7 @@ export default function Storage() {
   };
 
   const handleExportStorage = async () => {
-    DB.exportDb();
+    await Sharing.shareAsync(FileSystem.documentDirectory + `SQLite/${DB.DATABASE_NAME}`);
   };
 
   const clearStorage = () => {

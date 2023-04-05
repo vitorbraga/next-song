@@ -1,7 +1,9 @@
 import { Stack, useRouter } from "expo-router";
 import { View } from "react-native";
-import { ScreenHeaderBtn, Storage } from "../components";
+
 import { COLORS, icons } from "../constants";
+import Storage from "../components/storage/Storage";
+import ScreenHeaderBtn from "../components/common/ScreenHeaderBtn/ScreenHeaderBtn";
 
 const StoragePage = () => {
   const router = useRouter();

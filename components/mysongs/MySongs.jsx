@@ -1,68 +1,74 @@
 import { useEffect, useState } from "react";
-import { View, Text, ScrollView, FlatList } from "react-native";
-import { useRouter } from "expo-router";
+import { View, Text, ScrollView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import * as SQLite from 'expo-sqlite';
-import { COLORS, SIZES } from "../../constants";
+import { COLORS, FetchStatus, SIZES } from "../../constants";
 import SongCard from "./SongCard";
-import * as DB from "../../database/database";
+import * as DB from "../../constants/database";
 
-const actions = [
-  {
-    text: "New song",
-    icon: require("../../assets/icons/chevron-right.png"),
-    name: "bt-new-song",
-    position: 1
-  },
-];
+import styles from "./MySongs.style";
+import CustomButton from "../common/CustomButton/CustomButton";
 
 export default function MySongs() {
-  const router = useRouter();
   const isFocused = useIsFocused();
 
   const [songs, setSongs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [fetchStatus, setFetchStatus ] = useState(FetchStatus.INITIAL);
   const [db, setDb] = useState(SQLite.openDatabase(DB.DATABASE_NAME));
   const [transactionCount, setTransactionCount] = useState(0);
 
   const handleSuccessFetch = (_, { rows }) => {
     setSongs(rows._array);
-    setIsLoading(false);
+    setFetchStatus(FetchStatus.SUCCESS);
   }
 
   const handleFailedFetch = () => {
-    console.log('Failed Fetch');
-    setIsLoading(false);
+    setFetchStatus(FetchStatus.FAILURE);
   }
+
+  const fetchSongs = () => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(DB.getMySongsQuery, [], handleSuccessFetch, handleFailedFetch);
+      },
+      null,
+      () => setTransactionCount(transactionCount + 1),
+    );
+  };
 
   useEffect(() => {
     if (!isFocused) {
-      setIsLoading(true);
+      setFetchStatus(FetchStatus.LOADING);
     } else {
-      db.transaction(
-        (tx) => {
-          tx.executeSql(DB.getMySongsQuery, [], handleSuccessFetch, handleFailedFetch);
-        },
-        null,
-        () => setTransactionCount(transactionCount + 1),
-      );
+      fetchSongs();
     }
   }, [isFocused]);
 
-  if (isLoading) {
+  if (fetchStatus === FetchStatus.LOADING) {
     return (
-      <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Loading transitions...</Text>
+      <View style={styles.statusBox}>
+        <Text style={styles.messageText}>Loading songs...</Text>
+      </View>
+    );
+  }
+
+  if (fetchStatus === FetchStatus.FAILURE) {
+    return (
+      <View style={styles.statusBox}>
+        <Text style={styles.errorText}>Failed to fetch songs.</Text>
+        <View style={{ width: 100 }}>
+          <CustomButton label="Retry" handlePress={fetchSongs} variant="tertiary" />
+        </View>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, padding: SIZES.small }}>
+    <View style={styles.songsContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
         {songs.length === 0 && (
-          <View style={{ flex: 1, backgroundColor: COLORS.lightWhite, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>You have no songs yet.</Text>
+          <View style={styles.statusBox}>
+            <Text style={styles.messageText}>You have no songs yet.</Text>
           </View>
         )}
         {songs.map((item)=> <SongCard song={item} key={item.song_id} />)}

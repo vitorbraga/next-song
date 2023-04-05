@@ -1,9 +1,9 @@
 import { Stack, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScreenHeaderBtn } from "../components";
-import NewTransition from "../components/newtransition/NewTransition";
-import { COLORS, icons } from "../constants";
 import { View } from "react-native";
+
+import NewTransition from "../components/newtransition/NewTransition";
+import ScreenHeaderBtn from "../components/common/ScreenHeaderBtn/ScreenHeaderBtn";
+import { COLORS, icons } from "../constants";
 
 const NewTransitionPage = () => {
   const router = useRouter();
