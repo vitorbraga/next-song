@@ -22,6 +22,11 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.lightWhite,
     padding: SIZES.small,
   },
+  numberSongs: {
+    fontSize: SIZES.medium,
+    marginBottom: SIZES.small,
+    color: COLORS.gray0,
+  }
 });
 
 export default styles;

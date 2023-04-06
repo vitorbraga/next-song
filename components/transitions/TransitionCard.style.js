@@ -15,47 +15,38 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.gray1
   },
-  topBox: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  outroSongContainer: {
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     width: "100%",
     height: "50%",
     paddingVertical: SIZES.xxxSmall,
   },
+  topBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
   bottomBox: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
+  },
+  metricsWrapper: {
+    flexDirection: "row",
+  },
+  introSongContainer: {
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     width: "100%",
     height: "50%",
     borderTopWidth: 1,
     borderTopColor: COLORS.gray1,
     paddingVertical: SIZES.xxxSmall,
   },
-  leftBox: {
-    width: "68%",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
-  rightBox: {
-    width: "30%",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
-  rightTopBox: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    width: "100%",
-  },
-  rightBottomBox: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    width: "100%",
-  },
   titleWrapper: {
-    width: "100%",
     flexDirection: "row",
     alignItems: "center",
+    maxWidth: "65%",
   },
   title: {
     fontFamily: FONT.bold,
@@ -71,6 +62,8 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZES.medium,
     color: COLORS.gray0,
+    overflow: 'hidden',
+    maxWidth: '60%',
   },
   info: {
     fontFamily: FONT.bold,

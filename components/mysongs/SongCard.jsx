@@ -9,18 +9,16 @@ import styles from "./SongCard.style";
 export default function SongCard({ song }) {
   return (
     <View style={styles.songCard}>
-      <View style={styles.leftBox}>
-        <Text style={styles.title}>{song.title}</Text>
-        <Text style={styles.artist}>{song.artist}</Text>
-      </View>
-      <View style={styles.rightBox}>
-        <View style={styles.rightTopBox}>
+      <View style={styles.topBox}>
+        <Text style={styles.title} numberOfLines={1}>{song.title}</Text>
+        <View style={styles.metricsWrapper}>
           <Bpm bpm={song.bpm} />
           <Key songKey={song.key} />
         </View>
-        <View style={styles.rightBottomBox}>
-          <SongStyle songStyle={song.style} />
-        </View>
+      </View>
+      <View style={styles.bottomBox}>
+        <Text style={styles.artist} numberOfLines={1}>{song.artist}</Text>
+        <SongStyle songStyle={song.style} />
       </View>
     </View>
   );

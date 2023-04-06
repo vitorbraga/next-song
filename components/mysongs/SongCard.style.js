@@ -4,51 +4,39 @@ import { COLORS, FONT, SIZES } from "../../constants";
 
 const styles = StyleSheet.create({
   songCard: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     width: "100%",
-    height: 80,
+    height: 70,
     borderColor: COLORS.gray1,
     borderWidth : 1,
     paddingHorizontal: SIZES.xxSmall,
+    paddingVertical: SIZES.xxSmall,
     marginBottom: SIZES.small,
     borderRadius: SIZES.xSmall,
   },
-  leftBox: {
-    width: "68%",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
-  rightBox: {
-    width: "30%",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
-  rightTopBox: {
+  topBox: {
     flexDirection: "row",
-    justifyContent: "flex-end",
-    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  bottomBox: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     width: "100%",
   },
-  rightBottomBox: {
+  metricsWrapper: {
     flexDirection: "row",
-    justifyContent: "flex-end",
-    width: "100%",
   },
   title: {
     fontFamily: FONT.bold,
     fontSize: SIZES.large,
-  },
-  mixInfo: {
-    fontFamily: FONT.bold,
-    fontSize: SIZES.medium,
-    color: COLORS.gray,
-    marginLeft: SIZES.xxxSmall,
+    maxWidth: "65%",
   },
   artist: {
     fontFamily: FONT.regular,
     fontSize: SIZES.medium,
     color: COLORS.gray0,
+    maxWidth: '60%',
   },
 });
 

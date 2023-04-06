@@ -71,9 +71,13 @@ export default function MySongs() {
             <Text style={styles.messageText}>You have no songs yet.</Text>
           </View>
         )}
-        {songs.map((item)=> <SongCard song={item} key={item.song_id} />)}
+        {songs.length > 0 && (
+          <View>
+            <Text style={styles.numberSongs}>You have {songs.length} registered songs.</Text>
+            {songs.map((item) => <SongCard song={item} key={item.song_id} />)}
+          </View>
+        )}
       </ScrollView>
     </View>
   );
 }
-
