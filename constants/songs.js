@@ -24,6 +24,8 @@ const SONG_STYLES_DROPDOWN = [
   { label: 'Classic House', value: 'Classic House' },
 ];
 
+const POSSIBLE_SONG_STYLES = SONG_STYLES_DROPDOWN.map((item) => item.value);
+
 const SONG_STYLES_COLOR_MAP = {  
   'TH Brazil Latin': { backgroundColor: '#d6992f', color: '#fff' },
   'TH Brisa': { backgroundColor: '#e6844c', color: '#fff' },
@@ -48,6 +50,7 @@ const SONG_STYLES_COLOR_MAP = {
   'Groove': { backgroundColor: '#dbc327', color: '#fff' },
   'Afro House': { backgroundColor: '#367d46', color: '#fff' },
   'Classic House': { backgroundColor: '#8036b5', color: '#fff' },
+  'Default': { backgroundColor: '#326fa8', color: '#fff' },
 };
 
 const POSSIBLE_KEYS = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A', '5B', '6A', '6B',
@@ -78,6 +81,7 @@ const KEY_COLOR_MAP = {
   '11B': { backgroundColor: '#36D4F5', color: '#000' },
   '12A': { backgroundColor: '#2FEEEC', color: '#000' },
   '12B': { backgroundColor: '#00E9E6', color: '#000' },
+  'Default': { backgroundColor: '#000', color: '#fff' },
 };
 
-export { SONG_STYLES_DROPDOWN, SONG_STYLES_COLOR_MAP, POSSIBLE_KEYS, KEY_COLOR_MAP };
+export { SONG_STYLES_DROPDOWN, POSSIBLE_SONG_STYLES, SONG_STYLES_COLOR_MAP, POSSIBLE_KEYS, KEY_COLOR_MAP };

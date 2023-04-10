@@ -6,7 +6,7 @@ import CustomButton from "../common/CustomButton/CustomButton";
 import { SIZES } from "../../constants";
 import * as DocumentPicker from 'expo-document-picker';
 import { parse } from 'papaparse';
-import { validateKey } from "../../utils/validations";
+import { validateKey, validateSongStyle } from "../../utils/validations";
 
 import styles from "./Storage.style";
 
@@ -22,23 +22,29 @@ export default function Storage() {
       const csvString = await response.text();
       const parsedData = parse(csvString, { header: true }).data;
 
+      // TODO: fix this. It's not returning. It's hard to tell the error to the user.
       db.transaction(
         (tx) => {
-          parsedData.forEach((song) => {
-            const { ID, TITLE, ARTIST, KEY, BPM, STYLE, OBSERVATION } = song;
+          for (let i = 0; i < parsedData.length; i++) {
+            const { ID, TITLE, ARTIST, KEY, BPM, STYLE, OBSERVATION } = parsedData[i];
 
             if (!ID || !TITLE || !ARTIST || !KEY || !BPM || !STYLE) {
-              alert('Missing data in songs.csv');
-              return;
+              console.log('Missing data in songs.csv');
+              break;
             }
 
             if (!validateKey(KEY)) {
-              alert('Invalid key in songs.csv');
-              return;
+              console.log('Invalid key in songs.csv');
+              break;
+            }
+
+            if (!validateSongStyle(STYLE)) {
+              console.log('Invalid song style in songs.csv');
+              break;
             }
 
             tx.executeSql(DB.insertSongWithId, [ID, TITLE, ARTIST, KEY, BPM, STYLE, OBSERVATION]);
-          });
+          }
         },
         (error) => {
           alert('Failed to insert songs');
@@ -65,7 +71,7 @@ export default function Storage() {
             const { ID, SONGFROM, SONGTO, OUTRO, INTRO, OBSERVATION } = transition;
 
             if (!ID || !SONGFROM || !SONGTO || !OUTRO || !INTRO) {
-              alert('Missing data in transitions.csv');
+              console.log('Missing data in transitions.csv');
               return;
             }
 
