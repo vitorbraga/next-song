@@ -1,4 +1,4 @@
-export const DATABASE_NAME = 'nextsong.db';
+export const DATABASE_NAME = __DEV__ ? 'nextsong-dev.db' : 'nextsong.db';
 
 export const songsTableQuery = `CREATE TABLE IF NOT EXISTS songs (
     song_id INTEGER PRIMARY KEY AUTOINCREMENT,
