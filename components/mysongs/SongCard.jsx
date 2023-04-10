@@ -24,13 +24,6 @@ export default function SongCard({ song }) {
         </Text>
         <SongStyle songStyle={song.style} />
       </View>
-      {song.observation && showObservation && (
-        <View style={styles.observationWrapper}>
-          <Text style={styles.observation} numberOfLines={1}>
-            {song.observation}
-          </Text>
-        </View>
-      )}
     </View>
   );
 }
