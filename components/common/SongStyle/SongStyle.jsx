@@ -4,7 +4,7 @@ import { SONG_STYLES_COLOR_MAP } from "../../../constants/songs";
 import styles from "./SongStyle.style";
 
 export default function SongStyle({ songStyle }) {
-  const { backgroundColor, color } = SONG_STYLES_COLOR_MAP[songStyle];
+  const { backgroundColor, color } = SONG_STYLES_COLOR_MAP[songStyle] || SONG_STYLES_COLOR_MAP.Default;
 
   return (
     <Text
