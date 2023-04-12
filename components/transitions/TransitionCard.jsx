@@ -38,13 +38,13 @@ export default function TransitionCard({ transition }) {
               <Text style={styles.mixInfo}>({transition.intro})</Text>
             </View>
             <View style={styles.metricsWrapper}>
-              <Bpm bpm={transition.songFrom_bpm} />
-              <Key songKey={transition.songFrom_key} />
+              <Bpm bpm={transition.songTo_bpm} />
+              <Key songKey={transition.songTo_key} />
             </View>
           </View>
           <View style={styles.bottomBox}>
-            <Text style={styles.artist} numberOfLines={1}>{transition.songFrom_artist}</Text>
-            <SongStyle songStyle={transition.songFrom_style} />
+            <Text style={styles.artist} numberOfLines={1}>{transition.songTo_artist}</Text>
+            <SongStyle songStyle={transition.songTo_style} />
           </View>
         </View>
 
