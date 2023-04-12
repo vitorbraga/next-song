@@ -5,7 +5,6 @@ import { COLORS, FONT, SIZES } from "../../constants";
 const styles = StyleSheet.create({
   transitionCard: {
     width: "100%",
-    height: 140,
     backgroundColor: COLORS.white,
     borderRadius: SIZES.xSmall,
     flexDirection: "column",
@@ -13,14 +12,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: SIZES.xxSmall,
     marginBottom: SIZES.small,
     borderWidth: 1,
-    borderColor: COLORS.gray1
+    borderColor: COLORS.gray1,
+  },
+  cardObservation: {
+    borderColor: '#436499',
   },
   outroSongContainer: {
     flexDirection: "column",
     justifyContent: "space-evenly",
     width: "100%",
-    height: "50%",
-    paddingVertical: SIZES.xxxSmall,
+    minHeight: 60,
+    paddingVertical: SIZES.xxSmall,
   },
   topBox: {
     flexDirection: "row",
@@ -38,10 +40,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-evenly",
     width: "100%",
-    height: "50%",
+    minHeight: 60,
     borderTopWidth: 1,
     borderTopColor: COLORS.gray1,
-    paddingVertical: SIZES.xxxSmall,
+    paddingVertical: SIZES.xxSmall,
   },
   titleWrapper: {
     flexDirection: "row",
@@ -70,7 +72,22 @@ const styles = StyleSheet.create({
     fontSize: SIZES.large,
     borderWidth: 1,
     borderColor: COLORS.gray,
-  }
+  },
+  observationContainer: {
+    flexDirection: "column",
+    width: "100%",
+    minHeight: 30,
+    borderTopWidth: 1,
+    borderTopColor: COLORS.gray1,
+    paddingVertical: SIZES.xxSmall,
+    paddingHorizontal: SIZES.xxSmall,
+  },
+  observation: {
+    fontFamily: FONT.regular,
+    fontSize: SIZES.small,
+    color: COLORS.gray0,
+    fontStyle: "italic",
+  },
 });
 
 export default styles;
