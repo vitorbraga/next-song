@@ -32,30 +32,6 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     alignItems: 'center',
   },
-  searchWrapper: {
-    flex: 1,
-    backgroundColor: COLORS.white,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: SIZES.medium,
-    height: "100%",
-  },
-  searchInput: {
-    fontFamily: FONT.regular,
-    width: "100%",
-    height: "100%",
-    paddingHorizontal: SIZES.medium,
-    borderRadius: SIZES.xxSmall,
-    borderWidth : 1,
-  },
-  searchBtn: {
-    width: 50,
-    height: "100%",
-    backgroundColor: COLORS.tertiary,
-    borderRadius: SIZES.medium,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   statusBox: {
     backgroundColor: COLORS.lightWhite,
     alignItems: "center",
@@ -70,6 +46,12 @@ const styles = StyleSheet.create({
     fontSize: SIZES.medium,
     color: COLORS.errorRed,
   },
+  numberTransitions: {
+    fontSize: SIZES.small,
+    marginBottom: SIZES.small,
+    marginLeft: SIZES.xxxSmall,
+    color: COLORS.gray0,
+  }
 });
 
 export default styles;

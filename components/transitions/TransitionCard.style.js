@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   },
   cardObservation: {
     borderColor: '#436499',
+    borderWidth: 1.5,
   },
   outroSongContainer: {
     flexDirection: "column",

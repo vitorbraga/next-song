@@ -21,7 +21,7 @@ export const transitionsTableQuery = `CREATE TABLE IF NOT EXISTS transitions (
 
 export const dropTransitionsTableQuery = `DROP TABLE IF EXISTS transitions;`;
 
-export const getMySongsQuery = 'SELECT * FROM songs';
+export const getMySongsQuery = 'SELECT * FROM songs ORDER BY song_id DESC';
 
 export const getMyTransitionsQuery = 'SELECT * FROM transitions';
 
@@ -51,7 +51,8 @@ export const getAllTranstionsWithSongs = `
   FROM 
     transitions t
     JOIN songs sf ON t.songFrom = sf.song_id
-    JOIN songs st ON t.songTo = st.song_id;`;
+    JOIN songs st ON t.songTo = st.song_id
+  ORDER BY t.transition_id DESC`;
 
 export const deleteSongsQuery = 'DELETE FROM songs';
 

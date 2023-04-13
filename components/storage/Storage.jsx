@@ -47,11 +47,11 @@ export default function Storage() {
           }
         },
         (error) => {
-          alert('Failed to insert songs');
+          alert(`Failed to insert songs.\n\n${error.message}`);
         },
         () => {
           setTransactionCount(transactionCount + 1);
-          alert('Songs inserted successfully');
+          alert('Songs inserted successfully.');
         },
       );
     }
@@ -79,8 +79,7 @@ export default function Storage() {
           });
         },
         (error) => {
-          console.log(error);
-          alert('Failed to insert transitions');
+          alert(`Failed to insert transitions.\n\n${error.message}`);
         },
         () => {
           setTransactionCount(transactionCount + 1)

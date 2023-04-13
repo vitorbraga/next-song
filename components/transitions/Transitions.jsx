@@ -28,7 +28,7 @@ const Transitions = () => {
 
   const handleSuccessFetch = (_, { rows }) => {
     setAllTransitions(rows._array);
-    setFilteredTransitions(rows._array);
+    setFilteredTransitions(rows._array.slice(0, MAX_TRANSITIONS));
     setFetchStatus(FetchStatus.SUCCESS);
   };
 
@@ -42,7 +42,7 @@ const Transitions = () => {
       const filtered = allTransitions.filter((item) => item.songFrom_artist.includes(text) || item.songFrom_title.includes(text));
       setFilteredTransitions(filtered);
     } else {
-      setFilteredTransitions(allTransitions);
+      setFilteredTransitions(allTransitions.slice(0, MAX_TRANSITIONS));
     }
   };
 
@@ -96,13 +96,18 @@ const Transitions = () => {
       )}
 
       {fetchStatus === FetchStatus.SUCCESS && (
-        <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: SIZES.medium }}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: SIZES.xSmall }}>
           {filteredTransitions.length === 0 && (
             <View style={styles.statusBox}>
               <Text>No transitions found</Text>
             </View>
           )}
-          {filteredTransitions.slice(0, MAX_TRANSITIONS).map((item) => <TransitionCard transition={item} key={item.transition_id} />)}
+          {filteredTransitions.length > 0 && (
+            <View>
+              <Text style={styles.numberTransitions}>Showing {filteredTransitions.length} out of {allTransitions.length} registered transitions.</Text>
+              {filteredTransitions.map((item) => <TransitionCard transition={item} key={item.transition_id} />)}
+            </View>
+          )}
         </ScrollView>
       )}
     </View>
