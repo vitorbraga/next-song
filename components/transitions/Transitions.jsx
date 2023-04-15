@@ -38,8 +38,12 @@ const Transitions = () => {
 
   const handleChangeSearchTerm = (text) => {
     setSearchTerm(text);
-    if (text && text.length > 3) {
-      const filtered = allTransitions.filter((item) => item.songFrom_artist.includes(text) || item.songFrom_title.includes(text));
+    if (text && text.length > 2) {
+      const lowerCaseText = text.toLowerCase();
+      const filtered = allTransitions.filter((item) => {
+        return item.songFrom_artist.toLowerCase().includes(lowerCaseText) ||
+          item.songFrom_title.toLowerCase().includes(lowerCaseText);
+      });
       setFilteredTransitions(filtered);
     } else {
       setFilteredTransitions(allTransitions.slice(0, MAX_TRANSITIONS));
