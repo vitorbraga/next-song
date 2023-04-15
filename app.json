@@ -5,9 +5,9 @@
       "bundler": "metro"
     },
     "name": "NextSong",
-    "icon": "assets/icon.png",
+    "icon": "assets/dj-icon.png",
     "splash": {
-      "image": "assets/splash.png",
+      "image": "assets/dj-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
